@@ -1,8 +1,5 @@
 import React, { useMemo, useState } from 'react';
 
-/**
- * Normalize a Google Books cover URL and cap zoom to 2.
- */
 function toSafeCover(url) {
   const fallback = 'https://placehold.co/224x336/ede9fe/1f2937?text=No+Cover'; // 2:3
   if (!url || typeof url !== 'string') return fallback;
@@ -22,9 +19,6 @@ function toSafeCover(url) {
   }
 }
 
-/**
- * Crisp, fitted 2:3 cover with graceful fallback.
- */
 export default function BookCover({
   src,
   alt = 'Book cover',
