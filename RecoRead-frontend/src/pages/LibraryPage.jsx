@@ -56,14 +56,12 @@ export default function LibraryPage() {
 
   useEffect(() => {
     load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, size, sort]);
 
   useEffect(() => {
     setPage(0);
     const t = setTimeout(load, 0);
     return () => clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search, tag]);
 
   const libraryIdSet = useMemo(() => {
@@ -107,7 +105,6 @@ export default function LibraryPage() {
   return (
     <LibraryIdsContext.Provider value={libraryIdSet}>
       <div className="mx-auto max-w-6xl px-4 py-8">
-        {/* Toolbar */}
         <div className="flex flex-wrap items-center gap-3 justify-between">
           <div className="flex-1 min-w-[240px]">
             <input
@@ -140,14 +137,10 @@ export default function LibraryPage() {
           </div>
         </div>
 
-        {/* Two-column layout (Recent Activity first on mobile) */}
         <div className="mt-5 grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
-          {/* Right rail becomes first on mobile */}
           <aside className="min-w-0 lg:sticky lg:top-20 order-1 lg:order-2">
             <RecentActivity limit={16} />
           </aside>
-
-          {/* Books grid becomes second on mobile, first on desktop */}
           <section className="min-w-0 order-2 lg:order-1">
             {total === 0 ? (
               <EmptyState
@@ -166,15 +159,12 @@ export default function LibraryPage() {
           </section>
         </div>
 
-        {/* Pagination: info left, controls under right rail on desktop */}
         {total > 0 && (
           <div className="mt-6 grid items-center gap-3 lg:grid-cols-[minmax(0,1fr)_300px]">
-            {/* Left column: page info */}
+
             <div className="text-sm text-neutral-700">
               Page {data.number + 1} of {data.totalPages || 1} • {data.totalElements} items
             </div>
-
-            {/* Right column: controls aligned to right of the activity panel (stacks below on mobile) */}
             <div className="flex justify-start lg:justify-end items-center gap-2">
               <button
                 className="px-3 py-2 rounded-lg border border-neutral-300 disabled:opacity-50 bg-white"
@@ -204,7 +194,6 @@ export default function LibraryPage() {
           </div>
         )}
 
-        {/* Add Book Modal */}
         <AddBookModal
           open={openAdd}
           onClose={() => setOpenAdd(false)}

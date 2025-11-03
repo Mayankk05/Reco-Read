@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 
 const ease = [0.22, 1, 0.36, 1];
 
-// Reusable variants
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease } },
@@ -21,10 +20,8 @@ const stagger = {
 };
 
 export default function LandingPage() {
-  // Parallax offsets for subtle background accents in the hero
   const [offset, setOffset] = useState(0);
   useEffect(() => {
-    // Respect reduced motion
     const media = window.matchMedia?.('(prefers-reduced-motion: reduce)');
     const reduce = media?.matches;
     if (reduce) return;
@@ -35,18 +32,15 @@ export default function LandingPage() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Clamp transforms for tiny motion only
   const t1 = Math.max(-12, Math.min(12, offset * 0.06));
   const t2 = Math.max(-18, Math.min(18, offset * 0.09));
 
   return (
     <div>
-      {/* Hero with parallax gradient accents */}
       <motion.section initial="hidden" animate="visible" className="relative">
-        {/* Background gradient */}
+
         <div className="bg-gradient-to-br from-primary-200 via-card-500 to-accent-200">
           <div className="relative mx-auto max-w-6xl px-4 py-16 grid md:grid-cols-2 gap-10 items-center">
-            {/* Parallax layers (decorative) */}
             <div className="pointer-events-none absolute inset-0 -z-0">
               <div
                 aria-hidden="true"
@@ -60,7 +54,6 @@ export default function LandingPage() {
               />
             </div>
 
-            {/* Content */}
             <motion.div variants={stagger} className="relative z-10">
               <motion.h1 variants={fadeUp} className="text-4xl md:text-5xl font-bold text-neutral-900">
                 Welcome to RecoRead
@@ -106,8 +99,6 @@ export default function LandingPage() {
                 </motion.a>
               </motion.div>
             </motion.div>
-
-            {/* Value card */}
             <motion.div
               variants={fadeUp}
               whileHover={{ y: -4 }}
@@ -135,8 +126,6 @@ export default function LandingPage() {
           </div>
         </div>
       </motion.section>
-
-      {/* How it works */}
       <motion.section
         initial="hidden"
         whileInView="visible"
@@ -166,8 +155,6 @@ export default function LandingPage() {
           ))}
         </motion.div>
       </motion.section>
-
-      {/* About */}
       <motion.section
         initial="hidden"
         whileInView="visible"

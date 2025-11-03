@@ -50,7 +50,6 @@ export default function App() {
               </ProtectedRoute>
             }
           />
-          {/* Existing route that uses the global book ID */}
           <Route
             path="/books/:id"
             element={
@@ -61,7 +60,6 @@ export default function App() {
               </ProtectedRoute>
             }
           />
-          {/* New route that uses the per-user number (userBookNo) */}
           <Route
             path="/books/n/:no"
             element={

@@ -35,7 +35,6 @@ export default function ReadingHistoryPanel({ bookId, className = '' }) {
 
   useEffect(() => {
     load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookId]);
 
   return (

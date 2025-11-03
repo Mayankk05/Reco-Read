@@ -9,7 +9,7 @@ export default function BookDetail({ book }) {
   return (
     <div className="hero-card shadow-xl">
       <div className="flex flex-col lg:flex-row gap-5">
-        {/* Cover (compact) */}
+  
         <div className="lg:w-[220px] lg:shrink-0">
           <BookCover
             src={book.coverImageUrl}
@@ -19,7 +19,6 @@ export default function BookDetail({ book }) {
           />
         </div>
 
-        {/* Content */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
             {showUserNo && (
@@ -35,7 +34,6 @@ export default function BookDetail({ book }) {
             {book.author || 'Unknown author'}
           </p>
 
-          {/* Meta grid */}
           <div className="meta-grid mt-4">
             <MetaItem label="Publisher" value={book.publisher || '—'} />
             <MetaItem label="Published" value={formatDate(book.publishedDate)} />
@@ -44,7 +42,6 @@ export default function BookDetail({ book }) {
             <MetaItem label="ISBN‑13" value={book.isbn13 || '—'} />
           </div>
 
-          {/* Description (narrower measure) */}
           <div className="mt-5 max-w-3xl">
             <h4 className="text-base md:text-lg font-semibold text-neutral-900">Description</h4>
             <p className="mt-2 text-neutral-800 whitespace-pre-line leading-relaxed break-words text-[15px] md:text-base">
@@ -52,7 +49,6 @@ export default function BookDetail({ book }) {
             </p>
           </div>
 
-          {/* Tags */}
           {!!(book.tags && book.tags.length) && (
             <div className="mt-4 flex flex-wrap gap-2">
               {(book.tags || []).map((t) => (

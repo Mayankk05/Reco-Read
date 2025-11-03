@@ -31,7 +31,6 @@ export default function SummaryList({ bookId }) {
 
   useEffect(() => {
     load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookId]);
 
   if (loading) return <div className="text-neutral-700">Loading summaries…</div>;

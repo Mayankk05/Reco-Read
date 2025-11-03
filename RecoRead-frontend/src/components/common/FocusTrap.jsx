@@ -1,17 +1,5 @@
 import { useEffect, useRef } from 'react';
 
-/**
- * FocusTrap
- * - Traps keyboard focus within its subtree.
- * - Returns focus to the previously focused element on unmount.
- * - If no focusable element is inside, focuses the container.
- *
- * Props:
- * - children: ReactNode
- * - initialFocusRef?: ref to an element to focus first
- * - onEscape?: () => void  // called when user presses Escape
- * - className?: string
- */
 export default function FocusTrap({ children, initialFocusRef, onEscape, className = '' }) {
   const containerRef = useRef(null);
   const lastFocusedRef = useRef(null);
@@ -30,8 +18,6 @@ export default function FocusTrap({ children, initialFocusRef, onEscape, classNa
         (el) => !el.hasAttribute('disabled') && el.getAttribute('aria-hidden') !== 'true'
       );
     };
-
-    // Focus initial target or first focusable or container
     const focusInitial = () => {
       if (initialFocusRef?.current) {
         initialFocusRef.current.focus();
@@ -62,13 +48,11 @@ export default function FocusTrap({ children, initialFocusRef, onEscape, classNa
       const lastIndex = focusable.length - 1;
 
       if (e.shiftKey) {
-        // Shift+Tab
         if (currentIndex <= 0) {
           focusable[lastIndex].focus();
           e.preventDefault();
         }
       } else {
-        // Tab
         if (currentIndex === lastIndex) {
           focusable[0].focus();
           e.preventDefault();
@@ -81,12 +65,10 @@ export default function FocusTrap({ children, initialFocusRef, onEscape, classNa
 
     return () => {
       document.removeEventListener('keydown', onKeyDown);
-      // Restore focus
       if (lastFocusedRef.current && lastFocusedRef.current.focus) {
         lastFocusedRef.current.focus();
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

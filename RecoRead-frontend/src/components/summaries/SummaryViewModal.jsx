@@ -61,7 +61,6 @@ export default function SummaryViewModal({ open, summary, onClose }) {
       setCopied(label);
       setTimeout(() => setCopied(''), 1200);
     } catch {
-      // ignore
     }
   };
 
@@ -90,7 +89,7 @@ export default function SummaryViewModal({ open, summary, onClose }) {
     >
       <div className="min-h-full py-8 px-4 flex items-start justify-center overflow-auto">
         <div className="mx-auto w-full max-w-5xl rounded-2xl border border-neutral-200 bg-white shadow-xl">
-          {/* Header */}
+  
           <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-200 bg-gradient-to-r from-violet-50 to-fuchsia-50 rounded-t-2xl">
             <div className="flex items-center gap-3">
               <h2 id="summary-title" className="text-lg sm:text-xl font-semibold text-neutral-900">
@@ -119,12 +118,8 @@ export default function SummaryViewModal({ open, summary, onClose }) {
               </button>
             </div>
           </div>
-
-          {/* Body */}
           <div className="p-5">
-            {/* Responsive: side-by-side on md+, stacked on mobile */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Original */}
               <SectionCard
                 title="Original"
                 text={originalText}
@@ -138,8 +133,6 @@ export default function SummaryViewModal({ open, summary, onClose }) {
                 }
                 copied={copied === 'original'}
               />
-
-              {/* Generated summary */}
               <SectionCard
                 title={`Summary${provider ? ` (${provider})` : ''}`}
                 text={summaryText}
@@ -195,7 +188,6 @@ function SectionCard({ title, text, stats, onCopy, onDownload, copied }) {
         <div className="rounded-lg border border-neutral-200 bg-white px-4 py-3 text-neutral-800 leading-relaxed whitespace-pre-wrap">
           {text || '—'}
         </div>
-        {/* counts on mobile */}
         <div className="sm:hidden mt-2 flex items-center gap-2">
           <CountPill label="words" value={stats?.words ?? 0} />
           <CountPill label="chars" value={stats?.chars ?? 0} />
