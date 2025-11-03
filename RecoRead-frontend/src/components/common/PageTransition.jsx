@@ -2,11 +2,6 @@ import { motion } from 'motion/react';
 
 const ease = [0.22, 1, 0.36, 1];
 
-/**
- * PageTransition
- * A subtle fade + 8px slide-in used on every route mount.
- * It respects reduced-motion automatically via the user's OS setting.
- */
 export default function PageTransition({ children, className = '' }) {
   return (
     <motion.div
