@@ -1,4 +1,4 @@
-// Date formatting helpers
+
 export const formatDate = (d) => {
   if (!d) return 'N/A';
   const dt = new Date(d);
@@ -11,7 +11,6 @@ export const formatShortDate = (d) => {
   return dt.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
 };
 
-// Text helpers
 export const truncateText = (text, max = 160) => {
   if (!text) return '';
   if (text.length <= max) return text;
@@ -25,24 +24,17 @@ export const getInitials = (name) => {
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 };
 
-// Validation helpers
 export const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-// Images and covers
 export const getBookCover = (url) =>
   url || 'https://via.placeholder.com/240x360/9333ea/ffffff?text=No+Cover';
 
-/**
- * Returns a higher-res Google Books cover URL if possible, capped to zoom=2.
- * This avoids Google returning a grey "image not available" when zoom=3 doesn't exist.
- */
 export function getBookCoverHighRes(url, fallback = 'https://via.placeholder.com/160x240/9333ea/ffffff?text=No+Cover') {
   if (!url || typeof url !== 'string') return fallback;
 
   try {
     const u = new URL(url.replace('http://', 'https://'));
     if (u.hostname.includes('google') && u.searchParams) {
-      // Ensure image mode and cap zoom to 2
       if (!u.searchParams.has('img')) u.searchParams.set('img', '1');
       const existing = u.searchParams.get('zoom');
       const desired = Math.min(2, Math.max(1, Number(existing || 2)));
@@ -55,7 +47,6 @@ export function getBookCoverHighRes(url, fallback = 'https://via.placeholder.com
   }
 }
 
-// Error and timing helpers
 export const parseErrorMessage = (error) => {
   if (error?.response?.data?.message) return error.response.data.message;
   if (error?.response?.data?.error) return error.response.data.error;
@@ -71,15 +62,6 @@ export const debounce = (func, delay = 400) => {
   };
 };
 
-// Recommendations scoring
-/**
- * Compute a match score for a recommendation when sharedTags aren't available.
- * Heuristics:
- * - If sharedTags + source tags exist, use tag ratio.
- * - Else if authors match (case-insensitive), return high confidence (88).
- * - Else use a simple Jaccard similarity on title tokens (len >= 4) mapped to 60–92.
- * Returns an integer between 60–98, or null if insufficient data.
- */
 export function computeMatchScore(rec, source) {
   const srcTags = Array.isArray(source?.tags) ? source.tags : [];
   const shared = Array.isArray(rec?.sharedTags) ? rec.sharedTags : [];
@@ -108,7 +90,6 @@ export function computeMatchScore(rec, source) {
   return null;
 }
 
-// Internal
 function clamp(n, min, max) {
   return Math.max(min, Math.min(max, n));
 }
