@@ -1,22 +1,22 @@
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
 
 export default function Select({
-  items = [], // [{ value, label }]
+  items = [],
   value,
   onChange,
   placeholder = 'Select…',
   ariaLabel,
   className = '',
   disabled = false,
-  size = 'md', // 'sm' | 'md'
-  placement = 'auto', // 'auto' | 'top' | 'bottom'
-  offset = 8, // px gap between trigger and menu
+  size = 'md', 
+  placement = 'auto', 
+  offset = 8, 
 }) {
   const triggerRef = useRef(null);
   const menuRef = useRef(null);
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
-  const [menuPlacement, setMenuPlacement] = useState('bottom'); // 'top' | 'bottom'
+  const [menuPlacement, setMenuPlacement] = useState('bottom');
   const [menuMaxH, setMenuMaxH] = useState(260);
   const listboxId = useId();
 
@@ -70,7 +70,6 @@ export default function Select({
       }
     };
     const onResizeScroll = () => {
-      // Recompute when viewport changes while open
       computePlacement();
     };
 
@@ -85,14 +84,12 @@ export default function Select({
       window.removeEventListener('resize', onResizeScroll);
       window.removeEventListener('scroll', onResizeScroll);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, placement, offset]);
 
   useEffect(() => {
     if (!open) return;
     const ix = items.findIndex((i) => i.value === value);
     setActiveIndex(ix >= 0 ? ix : 0);
-    // Focus first option for keyboard users
     const first = menuRef.current?.querySelector('[role="option"]');
     first?.focus({ preventScroll: true });
   }, [open, items, value]);
@@ -145,7 +142,6 @@ export default function Select({
 
   return (
     <div className={`relative ${className}`}>
-      {/* Trigger */}
       <button
         ref={triggerRef}
         type="button"
@@ -172,8 +168,6 @@ export default function Select({
           />
         </svg>
       </button>
-
-      {/* Menu */}
       {open && (
         <div
           ref={menuRef}
