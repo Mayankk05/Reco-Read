@@ -3,7 +3,7 @@ import axiosInstance from '../../api/axiosConfig';
 import { LibraryIdsContext } from '../../contexts/LibraryIdlContext';
 import { searchGoogleBooks as searchViaBackend } from '../../api/bookApi';
 
-// Simple debounce helper
+
 function debounce(fn, ms = 450) {
   let t;
   return (...args) => {
@@ -12,13 +12,12 @@ function debounce(fn, ms = 450) {
   };
 }
 
-// Normalize publishedDate string for backend
 function normalizePublishedDate(s) {
   if (!s || typeof s !== 'string') return '';
   const raw = s.trim();
-  if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw;            // yyyy-MM-dd
-  if (/^\d{4}-\d{2}$/.test(raw)) return `${raw}-01`;           // yyyy-MM -> default day 01
-  if (/^\d{4}$/.test(raw)) return `${raw}-01-01`;              // yyyy -> default month/day 01
+  if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw;          
+  if (/^\d{4}-\d{2}$/.test(raw)) return `${raw}-01`;           
+  if (/^\d{4}$/.test(raw)) return `${raw}-01-01`;           
   const d = new Date(raw);
   if (!isNaN(d.valueOf())) {
     const y = d.getUTCFullYear();
@@ -29,7 +28,6 @@ function normalizePublishedDate(s) {
   return '';
 }
 
-// Map Google volume to our backend payload, including derived tags (from categories)
 function volumeToPayload(v) {
   const info = v?.volumeInfo || {};
   const ids = (info.industryIdentifiers || []).reduce(
@@ -43,7 +41,6 @@ function volumeToPayload(v) {
 
   const normalizedDate = normalizePublishedDate(info.publishedDate || '');
 
-  // categories -> tags (lowercased, trimmed, split slashes, unique, max 3)
   const rawCats = Array.isArray(info.categories) ? info.categories : [];
   const tags = [...new Set(
     rawCats
@@ -79,14 +76,13 @@ export default function SearchGoogleBooks({ onAdded }) {
   const [addingId, setAddingId] = useState(null);
   const [justAdded, setJustAdded] = useState(null);
 
-  // Abort controller for axios (supported)
+
   const abortRef = useRef(null);
-  // In-memory cache for search results with TTL
-  const cacheRef = useRef(new Map()); // key: query, value: { ts, items }
+
+  const cacheRef = useRef(new Map()); 
 
   const canSearch = q.trim().length >= 2;
 
-  // Backend search with small retry on 429
   const doBackendSearch = async (query, signal) => {
     const key = query.trim().toLowerCase();
     const now = Date.now();
@@ -97,10 +93,8 @@ export default function SearchGoogleBooks({ onAdded }) {
 
     let attempt = 0;
     const maxAttempts = 3;
-    const baseDelay = 600; // ms
+    const baseDelay = 600; 
 
-    // Retry loop (for 429)
-    // eslint-disable-next-line no-constant-condition
     while (true) {
       try {
         const data = await searchViaBackend(key, { signal });
@@ -110,7 +104,7 @@ export default function SearchGoogleBooks({ onAdded }) {
       } catch (e) {
         const status = e?.response?.status || e?.status;
         if (status === 429 && attempt < maxAttempts - 1) {
-          // Exponential backoff
+
           const delay = baseDelay * Math.pow(2, attempt);
           await new Promise((r) => setTimeout(r, delay));
           attempt += 1;
@@ -131,7 +125,6 @@ export default function SearchGoogleBooks({ onAdded }) {
           return;
         }
 
-        // Abort previous
         if (abortRef.current) {
           try { abortRef.current.abort(); } catch {}
         }
@@ -141,7 +134,6 @@ export default function SearchGoogleBooks({ onAdded }) {
         setLoading(true);
         setErr('');
         try {
-          // Use backend proxy (prevents 429/CORS of direct Google calls)
           const items = await doBackendSearch(query, controller.signal);
 
           const mapped = items.map((it) => {
@@ -171,7 +163,6 @@ export default function SearchGoogleBooks({ onAdded }) {
           setLoading(false);
         }
       }, 500),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
@@ -179,7 +170,6 @@ export default function SearchGoogleBooks({ onAdded }) {
     setLoading(true);
     setErr('');
     performSearch(q);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [q]);
 
   const handleAdd = async (vol) => {
@@ -211,7 +201,6 @@ export default function SearchGoogleBooks({ onAdded }) {
 
   return (
     <div className="space-y-4">
-      {/* Search input */}
       <input
         className="input-field"
         placeholder="Search books (min 2 characters)…"
@@ -219,11 +208,8 @@ export default function SearchGoogleBooks({ onAdded }) {
         onChange={(e) => setQ(e.target.value)}
         aria-label="Search Google Books"
       />
-
-      {/* Error */}
       {err ? <div className="text-red-600 text-sm">{err}</div> : null}
 
-      {/* Results */}
       <div className="space-y-3">
         {!canSearch && !loading ? null : loading ? (
           <>
