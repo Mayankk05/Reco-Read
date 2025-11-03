@@ -4,14 +4,9 @@ import { getRecommendations } from '../../api/recommendationApi';
 import { computeMatchScore, getBookCoverHighRes, parseErrorMessage, truncateText } from '../../utils/helpers';
 import { useLibraryIds } from '../../contexts/LibraryIdlContext';
 
-// Normalize various backend shapes into a single { recs: [], source: {} }
 function normalizeRecommendations(res) {
   if (!res) return { recs: [], source: {} };
 
-  // Common shapes:
-  // 1) { recommendations: [...], sourceBook: {...} }
-  // 2) { items: [...], source: {...} }
-  // 3) Array of recommendation-like items
   let raw = [];
   let source = res.sourceBook || res.source || res.context || {};
 
@@ -25,10 +20,8 @@ function normalizeRecommendations(res) {
     raw = [];
   }
 
-  // Ensure each item looks like { book, reason?, sharedTags? }
   const recs = raw.map((it) => {
     if (it && it.book) return it;
-    // Flattened item: wrap into { book: it }
     const {
       title,
       author,
@@ -63,14 +56,13 @@ function normalizeRecommendations(res) {
 }
 
 export default function RecommendationList({ data, bookId, limit = 6 }) {
-  const [fetched, setFetched] = useState(null); // server response
+  const [fetched, setFetched] = useState(null); 
   const [loading, setLoading] = useState(!!bookId && !data);
   const [err, setErr] = useState('');
   const [addingId, setAddingId] = useState(null);
   const [libraryCount, setLibraryCount] = useState(null);
   const libraryIds = useLibraryIds();
 
-  // Fetch when bookId is provided and no data prop
   useEffect(() => {
     let cancelled = false;
     async function load() {
@@ -92,12 +84,9 @@ export default function RecommendationList({ data, bookId, limit = 6 }) {
     };
   }, [bookId, data, limit]);
 
-  // Library count (nice stat in the header)
   useEffect(() => {
     getLibraryCount().then(setLibraryCount).catch(() => setLibraryCount(null));
   }, []);
-
-  // Prefer prop 'data' if given; otherwise use fetched
   const { recs, source } = useMemo(() => {
     const res = data || fetched;
     return normalizeRecommendations(res);
@@ -146,7 +135,6 @@ export default function RecommendationList({ data, bookId, limit = 6 }) {
 
   return (
     <div className="grid gap-4">
-      {/* Stats header */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         <div className="stat-card">
           <div className="stat-icon">↗</div>
@@ -174,8 +162,6 @@ export default function RecommendationList({ data, bookId, limit = 6 }) {
           </div>
         </div>
       </div>
-
-      {/* Recommendation cards */}
       <div className="grid gap-3">
         {recs.map((r, idx) => {
           const b = r.book || {};
