@@ -71,7 +71,7 @@ export default function RecentActivity({ limit = 16, className = '' }) {
       ) : (
         <div
           className="mt-1 space-y-2 overflow-y-auto pr-1"
-          style={{ maxHeight: 200 }} // compact + scrollable
+          style={{ maxHeight: 200 }}
           role="list"
           aria-label="Recent reading events"
         >
