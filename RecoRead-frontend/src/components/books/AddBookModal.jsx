@@ -3,7 +3,7 @@ import SearchGoogleBooks from './SearchGoogleBooks';
 import ManualBookForm from './ManualBookForm';
 
 export default function AddBookModal({ open, onClose, onAdded }) {
-  const [tab, setTab] = useState('search'); // 'search' | 'manual'
+  const [tab, setTab] = useState('search'); 
   const overlayRef = useRef(null);
   const closeBtnRef = useRef(null);
 
@@ -61,8 +61,7 @@ export default function AddBookModal({ open, onClose, onAdded }) {
               Close
             </button>
           </div>
-
-          {/* Tabs */}
+          
           <div className="px-5 pt-4">
             <div className="flex items-center gap-2 flex-wrap">
               <button
@@ -84,7 +83,6 @@ export default function AddBookModal({ open, onClose, onAdded }) {
             </div>
           </div>
 
-          {/* Body (scrolls) */}
           <div className="modal-body flex-1 overflow-y-auto min-h-0">
             {tab === 'search' ? (
               <SearchGoogleBooks
