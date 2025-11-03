@@ -19,7 +19,7 @@ function stateKey(id) {
 }
 
 export default function BookDetailPage() {
-  const { id, no } = useParams(); // supports /books/:id and /books/n/:no
+  const { id, no } = useParams(); 
   const nav = useNavigate();
 
   const [book, setBook] = useState(null);
@@ -198,7 +198,6 @@ export default function BookDetailPage() {
         </div>
       </div>
 
-      {/* Progress */}
       <div className="mb-3">
         <ProgressBar
           percent={pct ?? 0}
@@ -212,7 +211,6 @@ export default function BookDetailPage() {
         />
       </div>
 
-      {/* Latest note (if any) */}
       {latestNote ? (
         <div className="rounded-lg border border-neutral-300 bg-card-500 p-3 mb-4">
           <div className="text-sm text-neutral-700">
@@ -222,15 +220,12 @@ export default function BookDetailPage() {
         </div>
       ) : null}
 
-      {/* Hero */}
       <BookDetail book={book} />
 
-      {/* Tracker */}
       <div className="mt-5">
         <ReadingTracker book={book} onSaved={handleSaved} />
       </div>
 
-      {/* Summaries & Recommendations */}
       <div className="mt-7 grid md:grid-cols-2 gap-5 items-start">
         <section>
           <h3 className="section-title">Summaries</h3>
@@ -245,7 +240,6 @@ export default function BookDetailPage() {
         </section>
       </div>
 
-      {/* Summary modal */}
       <GenerateSummaryModal
         open={openGen}
         onClose={() => setOpenGen(false)}
