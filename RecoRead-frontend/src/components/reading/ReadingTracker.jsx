@@ -45,7 +45,6 @@ export default function ReadingTracker({ book, onSaved }) {
       }
     }
     const tryLoadLocal = () => {
-      // Try new compact cache first
       if (book?.id) {
         try {
           const raw = localStorage.getItem(stateKey(book.id));
@@ -56,7 +55,6 @@ export default function ReadingTracker({ book, onSaved }) {
           }
         } catch {}
       }
-      // Fall back to older local record
       if (!storageKey) return;
       try {
         const raw = localStorage.getItem(storageKey);
@@ -141,7 +139,7 @@ export default function ReadingTracker({ book, onSaved }) {
       }
 
       showSaved();
-      onSaved?.({ progressPercent: pct, page: pg }); // optimistic update upstream
+      onSaved?.({ progressPercent: pct, page: pg }); 
     } finally {
       setSaving(false);
     }
