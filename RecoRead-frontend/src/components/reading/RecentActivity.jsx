@@ -42,7 +42,6 @@ export default function RecentActivity({ limit = 16, className = '' }) {
 
   useEffect(() => {
     load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [limit]);
 
   return (
