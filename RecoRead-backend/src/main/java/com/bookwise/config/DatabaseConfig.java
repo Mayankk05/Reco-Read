@@ -13,9 +13,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Slf4j
 public class DatabaseConfig {
 
-    // Database configuration is handled by Spring Boot auto-configuration
-    // This class can be used for custom database configurations if needed
-
     public DatabaseConfig() {
         log.info("Database configuration initialized");
     }
