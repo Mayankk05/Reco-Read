@@ -9,7 +9,7 @@ RecoRead is a clean, distraction‑free companion for your reading life. Build y
 - Database: MySQL (managed)
 
 ---
-
+live demo-https://recoread.netlify.app/
 ## Features
 
 - Private library
